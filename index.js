@@ -50,7 +50,7 @@ const nextOption = data => {
         } else if (answer.nextOption === 'Add an intern') {
             internInfo(data);
         } else if (answer.nextOption === 'Finish building your team') {
-            console.log(data);
+            return data;
         }
     })
 }
@@ -143,6 +143,9 @@ Engineer's Information
 
 managerInfo()
     .then(nextOption)
+    .then(data => {
+        console.log(data);
+    })
     .catch((error) => {
         if (error.isTtyError) {
           console.log(error);
