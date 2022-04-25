@@ -1,6 +1,5 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const generateTemplate = require('./src/generateTemplate');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
@@ -66,8 +65,7 @@ teamInfo.prototype.nextOption = function() {
         } else if (nextOption === 'Add an intern') {
             this.internInfo();
         } else if (nextOption === 'Finish building your team') {
-            console.log(this);
-            // generateTemplate(mockData);
+            writeToFile(this.generateTemplate());
         }
     })
 }
@@ -187,21 +185,83 @@ const writeToFile = content => {
     });
 }
 
-// managerInfo()
-//     .then(nextOption)
-    // .then(data => {
-    //     console.log(data);
-    //     return generateTemplate(data);
-    // })
-    // .then(content => {
-    //     writeToFile(content);
-    // })
-    // .catch((error) => {
-    //     if (error.isTtyError) {
-    //       console.log(error);
-    //     } else {
-    //       console.log(error);
-    //     }
-    // });
+teamInfo.prototype.generateTemplate = function() {
+    return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Team Info</title>
+</head>
+<body>
+    <header>
+        <h1>My Team</h1>
+    </header>
+
+    <main>
+        <article>
+            <div>
+                <h2>${this.manager.getName()}</h2>
+                <p>${this.manager.getRole()}</p>
+            </div>
+            <div>
+                <p>ID: ${this.manager.getId()}</p>
+                <p>Email: ${this.manager.getEmail()}</p>
+                <p>Office number: ${this.manager.officeNumber}</p>
+            </div>
+        </article>
+        ${this.generateEngineer()}
+        ${this.generateIntern()}
+    </main>
+</body>
+</html>
+    `;
+}
+
+teamInfo.prototype.generateEngineer = function() {
+    let articles = [];
+
+    for (let i = 0; i < this.engineer.length; i++) {
+        articles.push(`
+        <article>
+            <div>
+                <h2>${this.engineer[i].getName()}</h2>
+                <p>${this.engineer[i].getRole()}</p>
+            </div>
+            <div>
+                <p>ID: ${this.engineer[i].getId()}</p>
+                <p>Email: ${this.engineer[i].getEmail()}</p>
+                <p>GitHub: ${this.engineer[i].getGithub()}</p>
+            </div>
+        </article>
+        `);
+    }
+
+    return articles.join('');
+}
+
+teamInfo.prototype.generateIntern = function() {
+    let articles = [];
+
+    for (let i = 0; i < this.intern.length; i++) {
+        articles.push(`
+        <article>
+            <div>
+                <h2>${this.intern[i].getName()}</h2>
+                <p>${this.intern[i].getRole()}</p>
+            </div>
+            <div>
+                <p>ID: ${this.intern[i].getId()}</p>
+                <p>Email: ${this.intern[i].getEmail()}</p>
+                <p>School: ${this.intern[i].getSchool()}</p>
+            </div>
+        </article>
+        `);
+    }
+
+    return articles.join('');
+}
 
 new teamInfo().initTeam();
