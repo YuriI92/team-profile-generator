@@ -1,4 +1,6 @@
 const inquirer = require('inquirer');
+const fs = require('fs');
+const generateTemplate = require('./src/generateTemplate');
 
 const managerInfo = () => {
     console.log(`
@@ -50,7 +52,7 @@ const nextOption = data => {
         } else if (answer.nextOption === 'Add an intern') {
             internInfo(data);
         } else if (answer.nextOption === 'Finish building your team') {
-            return data;
+            return generateTemplate(mockData);
         }
     })
 }
@@ -106,9 +108,9 @@ const internInfo = teamInfo => {
     let tempArr = [];
 
     console.log(`
-======================
-Engineer's Information
-======================
+====================
+Intern's Information
+====================
     `);
     
     return inquirer.prompt([
@@ -141,11 +143,57 @@ Engineer's Information
     });
 }
 
+const mockData = {
+    name: 'Jared',
+    id: '1',
+    email: 'jared@fakemail.com',
+    officeNumber: '1',
+    engineer: [ [ {
+            name: 'Alec',
+            id: '2',
+            email: 'alec@fakemail.com',
+            github: 'ibalec'
+        } ],
+        [ {
+            name: 'Grace',
+            id: '3',
+            email: 'grace@fakemail.com',
+            github: 'gchoi2u'
+        } ],
+        [{
+            name: 'Tammer',
+            id: '4',
+            email: 'tammer@fakemail.com',
+            github: 'tammerg'
+        }]
+    ],
+    intern: [[{
+        name: 'John',
+        id: '5',
+        email: 'john@fakemail.com',
+        school: '2University'
+    }]]
+}
+
+const writeToFile = content => {
+    fs.writeFile('./dist/index.html', content, err => {
+        if (err) {
+            console.log(err);
+        }
+
+        console.log('HTML file created!');
+    });
+}
+
 managerInfo()
     .then(nextOption)
-    .then(data => {
-        console.log(data);
-    })
+    // .then(data => {
+    //     console.log(data);
+    //     return generateTemplate(data);
+    // })
+    // .then(content => {
+    //     writeToFile(content);
+    // })
     .catch((error) => {
         if (error.isTtyError) {
           console.log(error);
