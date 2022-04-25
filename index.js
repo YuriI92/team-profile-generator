@@ -1,15 +1,24 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const generateTemplate = require('./src/generateTemplate');
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
 
-const managerInfo = () => {
+function teamInfo() {
+    this.manager;
+    this.engineer = [];
+    this.intern = [];
+}
+
+teamInfo.prototype.initTeam = function() {
     console.log(`
 =====================
 Manager's Information
 =====================
     `);
-    
-    return inquirer.prompt([
+        
+    inquirer.prompt([
         {
             type: 'input',
             name: 'name',
@@ -31,10 +40,15 @@ Manager's Information
             message: "What is your team manager's office number?"
         }
     ])
+    .then(({ name, id, email, officeNumber }) => {
+        this.manager = new Manager(name, id, email, officeNumber);
+
+        this.nextOption();
+    });
 }
 
-const nextOption = data => {
-    return inquirer.prompt([
+teamInfo.prototype.nextOption = function() {
+    inquirer.prompt([
         {
             type: 'list',
             name: 'nextOption',
@@ -46,31 +60,26 @@ const nextOption = data => {
             ]
         }
     ])
-    .then((answer) => {
-        if (answer.nextOption === 'Add an engineer') {
-            engineerInfo(data);
-        } else if (answer.nextOption === 'Add an intern') {
-            internInfo(data);
-        } else if (answer.nextOption === 'Finish building your team') {
-            return generateTemplate(mockData);
+    .then(({ nextOption }) => {
+        if (nextOption === 'Add an engineer') {
+            this.engineerInfo();
+        } else if (nextOption === 'Add an intern') {
+            this.internInfo();
+        } else if (nextOption === 'Finish building your team') {
+            console.log(this);
+            // generateTemplate(mockData);
         }
     })
 }
 
-const engineerInfo = teamInfo => {
-    if (!teamInfo.engineer) {
-        teamInfo.engineer = [];
-    }
-
-    let tempArr = [];
-
+teamInfo.prototype.engineerInfo = function() {
     console.log(`
 ======================
 Engineer's Information
 ======================
     `);
     
-    return inquirer.prompt([
+    inquirer.prompt([
         {
             type: 'input',
             name: 'name',
@@ -92,28 +101,20 @@ Engineer's Information
             message: "What is the engineer's GitHub username?"
         }
     ])
-    .then(data => {
-        tempArr.push(data);
-        teamInfo.engineer.push(tempArr);
-        console.log(teamInfo.engineer[0]);
-        nextOption(teamInfo);
+    .then(({ name, id, email, github }) => {
+        this.engineer.push(new Engineer(name, id, email, github));
+        this.nextOption();
     });
 }
 
-const internInfo = teamInfo => {
-    if (!teamInfo.intern) {
-        teamInfo.intern = [];
-    }
-
-    let tempArr = [];
-
+teamInfo.prototype.internInfo = function() {
     console.log(`
 ====================
 Intern's Information
 ====================
     `);
     
-    return inquirer.prompt([
+    inquirer.prompt([
         {
             type: 'input',
             name: 'name',
@@ -135,44 +136,45 @@ Intern's Information
             message: "What is the intern's school?"
         }
     ])
-    .then(data => {
-        tempArr.push(data);
-        teamInfo.intern.push(tempArr);
-        console.log(teamInfo.intern[0]);
-        nextOption(teamInfo);
+    .then(({ name, id, email, school }) => {
+        this.intern.push(new Intern(name, id, email, school));
+        this.nextOption();
     });
 }
 
 const mockData = {
-    name: 'Jared',
-    id: '1',
-    email: 'jared@fakemail.com',
-    officeNumber: '1',
-    engineer: [ [ {
+    engineer: [
+        {
             name: 'Alec',
             id: '2',
             email: 'alec@fakemail.com',
             github: 'ibalec'
-        } ],
-        [ {
+        },
+        {
             name: 'Grace',
             id: '3',
             email: 'grace@fakemail.com',
             github: 'gchoi2u'
-        } ],
-        [{
+        },
+        {
             name: 'Tammer',
             id: '4',
             email: 'tammer@fakemail.com',
             github: 'tammerg'
-        }]
+        }
     ],
-    intern: [[{
+    intern: {
         name: 'John',
         id: '5',
         email: 'john@fakemail.com',
         school: '2University'
-    }]]
+    },
+    manager: {
+        name: 'Jared',
+        id: '1',
+        email: 'jared@fakemail.com',
+        officeNumber: '1',    
+    }
 }
 
 const writeToFile = content => {
@@ -185,8 +187,8 @@ const writeToFile = content => {
     });
 }
 
-managerInfo()
-    .then(nextOption)
+// managerInfo()
+//     .then(nextOption)
     // .then(data => {
     //     console.log(data);
     //     return generateTemplate(data);
@@ -194,10 +196,12 @@ managerInfo()
     // .then(content => {
     //     writeToFile(content);
     // })
-    .catch((error) => {
-        if (error.isTtyError) {
-          console.log(error);
-        } else {
-          console.log(error);
-        }
-    });
+    // .catch((error) => {
+    //     if (error.isTtyError) {
+    //       console.log(error);
+    //     } else {
+    //       console.log(error);
+    //     }
+    // });
+
+new teamInfo().initTeam();
