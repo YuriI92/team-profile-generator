@@ -201,6 +201,17 @@ teamInfo.prototype.generateTemplate = function() {
     </header>
 
     <main>
+        ${this.generateContent()}
+    </main>
+</body>
+</html>
+    `;
+}
+
+let html = '';
+
+teamInfo.prototype.generateContent = function() {
+    html += `
         <article>
             <div>
                 <h2>${this.manager.getName()}</h2>
@@ -212,19 +223,10 @@ teamInfo.prototype.generateTemplate = function() {
                 <p>Office number: ${this.manager.officeNumber}</p>
             </div>
         </article>
-        ${this.generateEngineer()}
-        ${this.generateIntern()}
-    </main>
-</body>
-</html>
-    `;
-}
-
-teamInfo.prototype.generateEngineer = function() {
-    let articles = [];
+        `
 
     for (let i = 0; i < this.engineer.length; i++) {
-        articles.push(`
+        html += `
         <article>
             <div>
                 <h2>${this.engineer[i].getName()}</h2>
@@ -236,17 +238,11 @@ teamInfo.prototype.generateEngineer = function() {
                 <p>GitHub: ${this.engineer[i].getGithub()}</p>
             </div>
         </article>
-        `);
+        `;
     }
 
-    return articles.join('');
-}
-
-teamInfo.prototype.generateIntern = function() {
-    let articles = [];
-
     for (let i = 0; i < this.intern.length; i++) {
-        articles.push(`
+        html += `
         <article>
             <div>
                 <h2>${this.intern[i].getName()}</h2>
@@ -258,10 +254,10 @@ teamInfo.prototype.generateIntern = function() {
                 <p>School: ${this.intern[i].getSchool()}</p>
             </div>
         </article>
-        `);
+        `;
     }
 
-    return articles.join('');
+    return html;
 }
 
 new teamInfo().initTeam();
