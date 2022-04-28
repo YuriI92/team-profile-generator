@@ -65,8 +65,8 @@ teamInfo.prototype.nextOption = function() {
         } else if (nextOption === 'Add an intern') {
             this.internInfo();
         } else if (nextOption === 'Finish building your team') {
-            // writeToFile(this.generateTemplate());
-            writeToFile(mockData);
+            writeToFile(this.generateTemplate());
+            // writeToFile(mockData);
         }
     })
 }
@@ -277,9 +277,10 @@ teamInfo.prototype.generateTemplate = function() {
     `;
 }
 
-let html = '';
-
 teamInfo.prototype.generateContent = function() {
+    let html = '';
+
+    console.log(this.manager);
     html += `
             <article class="card border-0 shadow my-3" style="width: 300px;">
                 <div class="card-body bg-primary text-white p-3">
