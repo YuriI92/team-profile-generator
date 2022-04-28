@@ -193,15 +193,23 @@ teamInfo.prototype.generateTemplate = function() {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" 
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous" />
+        <script src="https://kit.fontawesome.com/1822302283.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./dist/style.css" />
     <title>My Team Info</title>
 </head>
 <body>
     <header>
-        <h1>My Team</h1>
+        <div class="d-flex justify-content-center align-items-center bg-danger">
+            <h1 class="py-4 py-md-5 text-white">My Team</h1>
+        </div>
     </header>
 
-    <main>
-        ${this.generateContent()}
+    <main class="row justify-content-center">
+        <section class="col-12 col-lg-11 d-flex justify-content-around flex-wrap my-2 my-md-5">
+            ${this.generateContent()}
+        </section>
     </main>
 </body>
 </html>
@@ -212,48 +220,52 @@ let html = '';
 
 teamInfo.prototype.generateContent = function() {
     html += `
-        <article>
-            <div>
-                <h2>${this.manager.getName()}</h2>
-                <p>${this.manager.getRole()}</p>
-            </div>
-            <div>
-                <p>ID: ${this.manager.getId()}</p>
-                <p>Email: ${this.manager.getEmail()}</p>
-                <p>Office number: ${this.manager.officeNumber}</p>
-            </div>
-        </article>
-        `
+            <article class="card border-0 shadow my-3" style="width: 300px;">
+                <div class="card-body bg-primary text-white p-3">
+                    <h2 class="card-title">${this.manager.getName()}</h2>
+                    <h3 class="card-subtitle"><i class="fa-solid fa-briefcase"></i> ${this.manager.getRole()}</h3>
+                </div>
+                <div class="list-group list-group-flush bg-light py-3">
+                    <ul class="card-body mt-3">
+                        <li class="list-group-item">ID: ${this.manager.getId()}</li>
+                        <li class="list-group-item">Email: <a href="mailto:${this.manager.getEmail()}">${this.manager.getEmail()}</a></li>
+                        <li class="list-group-item">Office number: ${this.manager.officeNumber}</li>
+                    </ul>
+                </div>
+            </article>`
 
     for (let i = 0; i < this.engineer.length; i++) {
         html += `
-        <article>
-            <div>
-                <h2>${this.engineer[i].getName()}</h2>
-                <p>${this.engineer[i].getRole()}</p>
-            </div>
-            <div>
-                <p>ID: ${this.engineer[i].getId()}</p>
-                <p>Email: ${this.engineer[i].getEmail()}</p>
-                <p>GitHub: ${this.engineer[i].getGithub()}</p>
-            </div>
-        </article>
-        `;
+            <article class="card border-0 shadow my-3" style="width: 300px;">
+                <div class="card-body bg-primary text-white p-3">
+                    <h2 class="card-title">${this.engineer[i].getName()}</h2>
+                    <h3 class="card-subtitle"><i class="fa-solid fa-laptop"></i> ${this.engineer[i].getRole()}</h3>
+                </div>
+                <div class="list-group list-group-flush bg-light py-3">
+                    <ul class="card-body mt-3">
+                        <li class="list-group-item">ID: ${this.engineer[i].getId()}</li>
+                        <li class="list-group-item">Email: <a href="mailto:${this.engineer[i].getEmail()}">${this.engineer[i].getEmail()}</a></li>
+                        <li class="list-group-item">GitHub: ${this.engineer[i].getGithub()}</li>
+                    </ul>
+                </div>
+            </article>`;
     }
 
     for (let i = 0; i < this.intern.length; i++) {
         html += `
-        <article>
-            <div>
-                <h2>${this.intern[i].getName()}</h2>
-                <p>${this.intern[i].getRole()}</p>
-            </div>
-            <div>
-                <p>ID: ${this.intern[i].getId()}</p>
-                <p>Email: ${this.intern[i].getEmail()}</p>
-                <p>School: ${this.intern[i].getSchool()}</p>
-            </div>
-        </article>
+            <article class="card border-0 shadow my-3" style="width: 300px;">
+                <div class="card-body bg-primary text-white p-3">
+                    <h2 class="card-title">${this.intern[i].getName()}</h2>
+                    <h3 class="card-subtitle"><i class="fa-solid fa-graduation-cap"></i> ${this.intern[i].getRole()}</h3>
+                </div>
+                <div class="list-group list-group-flush bg-light py-3">
+                    <ul class="card-body mt-3">
+                        <li class="list-group-item">ID: ${this.intern[i].getId()}</li>
+                        <li class="list-group-item">Email: <a href="mailto:${this.intern[i].getEmail()}">${this.intern[i].getEmail()}</a></li>
+                        <li class="list-group-item">School: ${this.intern[i].getSchool()}</li>
+                    </ul>
+                </div>
+            </article>
         `;
     }
 
