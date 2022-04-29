@@ -1,21 +1,17 @@
 const inquirer = require('inquirer');
-const fs = require('fs');
-const Manager = require('./lib/Manager');
-const Engineer = require('./lib/Engineer');
-const Intern = require('./lib/Intern');
-const generateTemplate = require('./src/generateTemplate');
-const mockData = require('./src/mockData');
+
 const teamInfo = {
     manager: [],
     engineer: [],
     intern: []
 };
 
-// function teamInfo() {
-//     this.manager;
-//     this.engineer = [];
-//     this.intern = [];
-// }
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
+
+const generateTemplate = require('./src/generateTemplate');
+const writeToFile = require('./src/generateFile')
 
 const managerInfo = () => {
     console.log(`
@@ -71,7 +67,6 @@ const nextOption = () => {
             internInfo();
         } else if (nextOption === 'Finish building your team') {
             writeToFile(generateTemplate(teamInfo));
-            // writeToFile(mockData);
         }
     })
 }
@@ -143,20 +138,6 @@ Intern's Information
     .then(({ name, id, email, school }) => {
         teamInfo.intern.push(new Intern(name, id, email, school));
         nextOption();
-    });
-}
-
-const writeToFile = content => {
-    if (!fs.existsSync('./dist')) {
-        fs.mkdirSync('./dist');
-    }
-
-    fs.writeFile('./dist/index.html', content, err => {
-        if (err) {
-            console.log(err);
-        }
-
-        console.log('HTML file created!');
     });
 }
 

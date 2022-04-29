@@ -1,9 +1,4 @@
-const Manager = require('../lib/Manager');
-const Engineer = require('../lib/Engineer');
-const Intern = require('../lib/Intern');
-
 const generateTemplate = data => {
-    console.log(data.manager[0]);
     return `
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +21,9 @@ const generateTemplate = data => {
 
     <main class="row justify-content-center">
         <section class="col-12 col-lg-11 d-flex justify-content-around flex-wrap my-2 my-md-5">
+
             ${generateContent(data)}
+
         </section>
     </main>
 </body>
@@ -35,7 +32,6 @@ const generateTemplate = data => {
 }
 
 const generateContent = data => {
-    console.log(data);
     let html = '';
 
     html += `
