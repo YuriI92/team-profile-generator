@@ -44,6 +44,7 @@ Test all the object classes by typing `jest` in the command line prompt. And ref
 ```bash
 jest employee
 ```
+For test demonstration video, click [here](https://drive.google.com/file/d/1_OPVoEyrgqoaM208B8HOsbypjqGzS3XS/view?usp=sharing).
       
 ## Questions
 - GitHub Profile: https://github.com/YuriI92
