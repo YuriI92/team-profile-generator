@@ -1,3 +1,4 @@
+// generates main template for html file
 const generateTemplate = data => {
     return `
 <!DOCTYPE html>
@@ -31,9 +32,12 @@ const generateTemplate = data => {
     `;
 }
 
+// generates all team member's cards
 const generateContent = data => {
+    // set an empty variable to store html template
     let html = '';
 
+    // add manager info card into the variable
     html += `
             <article class="card border-0 shadow my-3" style="width: 300px;">
                 <div class="card-body bg-primary text-white p-3">
@@ -49,6 +53,7 @@ const generateContent = data => {
                 </div>
             </article>`
 
+    // add engineer info card into the variable
     for (let i = 0; i < data.engineer.length; i++) {
         html += `
             <article class="card border-0 shadow my-3" style="width: 300px;">
@@ -66,6 +71,7 @@ const generateContent = data => {
             </article>`;
     }
 
+    // add intern info card into the variable
     for (let i = 0; i < data.intern.length; i++) {
         html += `
             <article class="card border-0 shadow my-3" style="width: 300px;">
@@ -80,10 +86,10 @@ const generateContent = data => {
                         <li class="list-group-item">School: ${data.intern[i].getSchool()}</li>
                     </ul>
                 </div>
-            </article>
-        `;
+            </article>`;
     }
 
+    // return the html containing all the member's info cards
     return html;
 }
 
