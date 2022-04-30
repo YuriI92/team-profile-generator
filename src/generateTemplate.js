@@ -65,7 +65,7 @@ const generateContent = data => {
                     <ul class="card-body mt-3">
                         <li class="list-group-item">ID: ${data.engineer[i].getId()}</li>
                         <li class="list-group-item">Email: <a href="mailto:${data.engineer[i].getEmail()}">${data.engineer[i].getEmail()}</a></li>
-                        <li class="list-group-item">GitHub: ${data.engineer[i].getGithub()}</li>
+                        <li class="list-group-item">GitHub: <a href="https://github.com/${data.engineer[i].getGithub()}" target="_blank" rel="noopener">${data.engineer[i].getGithub()}</a></li>
                     </ul>
                 </div>
             </article>`;
